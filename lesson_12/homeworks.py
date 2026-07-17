@@ -29,8 +29,3 @@ def check_word(word):
 #5 from HW 07/task 4
 def reverse_text(text):
     return text[::-1]
-
-
-
-
-
