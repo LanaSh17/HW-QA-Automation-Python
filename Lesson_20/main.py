@@ -1,15 +1,15 @@
+import random
+
 from database import engine, SessionLocal, Base
 from models import Student, Course
 
 
-# Створюємо таблиці
+
 Base.metadata.create_all(engine)
 
-# Підключаємося до бази даних
+
 session = SessionLocal()
 
-
-# 1. Створюємо 5 курсів
 
 courses = [
     Course(name="Python"),
@@ -25,7 +25,6 @@ session.commit()
 print("5 курсів створено")
 
 
-# 2. Створюємо 20 студентів
 
 students = [
     Student(name="Anna", email="anna@gmail.com"),
@@ -56,62 +55,25 @@ session.commit()
 print("20 студентів створено")
 
 
-# 3. Розподіляємо студентів по курсах
 
-students[0].courses.append(courses[0])
-students[0].courses.append(courses[1])
+for student in students:
+    random_courses = random.sample(courses, random.randint(1, 3))
 
-students[1].courses.append(courses[0])
-students[1].courses.append(courses[2])
-
-students[2].courses.append(courses[1])
-students[2].courses.append(courses[3])
-
-students[3].courses.append(courses[0])
-students[3].courses.append(courses[4])
-
-students[4].courses.append(courses[2])
-students[4].courses.append(courses[3])
-
-students[5].courses.append(courses[0])
-students[5].courses.append(courses[4])
-
-students[6].courses.append(courses[1])
-students[6].courses.append(courses[2])
-
-students[7].courses.append(courses[3])
-students[7].courses.append(courses[4])
-
-students[8].courses.append(courses[0])
-students[8].courses.append(courses[2])
-
-students[9].courses.append(courses[1])
-students[9].courses.append(courses[4])
-
-students[10].courses.append(courses[0])
-students[11].courses.append(courses[1])
-students[12].courses.append(courses[2])
-students[13].courses.append(courses[3])
-students[14].courses.append(courses[4])
-students[15].courses.append(courses[0])
-students[16].courses.append(courses[1])
-students[17].courses.append(courses[2])
-students[18].courses.append(courses[3])
-students[19].courses.append(courses[4])
+    for course in random_courses:
+        student.courses.append(course)
 
 session.commit()
 
-print("Студентів розподілено по курсах")
+print("Студентів випадково розподілено по курсах")
 
 
-# 4. Додаємо нового студента
 
 new_student = Student(
     name="Lana",
     email="lana@gmail.com"
 )
 
-# Додаємо студента на курс Python
+
 new_student.courses.append(courses[0])
 
 session.add(new_student)
@@ -119,8 +81,6 @@ session.commit()
 
 print("Нового студента додано")
 
-
-# 5. Виводимо студентів курсу Python
 
 course = session.query(Course).filter_by(name="Python").first()
 
@@ -130,7 +90,6 @@ for student in course.students:
     print(student.name)
 
 
-# 6. Виводимо курси студентки Anna
 
 student = session.query(Student).filter_by(name="Anna").first()
 
@@ -139,8 +98,6 @@ print("\nКурси студентки Anna:")
 for course in student.courses:
     print(course.name)
 
-
-# 7. Оновлюємо дані студента
 
 student = session.query(Student).filter_by(name="John").first()
 
@@ -151,8 +108,6 @@ session.commit()
 print("\nДані студента оновлено")
 
 
-# 8. Оновлюємо назву курсу
-
 course = session.query(Course).filter_by(name="Java").first()
 
 course.name = "Advanced Java"
@@ -162,8 +117,6 @@ session.commit()
 print("Назву курсу оновлено")
 
 
-# 9. Видаляємо студента
-
 student = session.query(Student).filter_by(name="Michael").first()
 
 session.delete(student)
@@ -172,5 +125,4 @@ session.commit()
 print("Студента Michael видалено")
 
 
-# Закриваємо з'єднання з базою даних
 session.close()
