@@ -11,13 +11,14 @@ pipeline {
 
         stage('Install dependencies') {
             steps {
-                sh 'pip install -r requirements.txt'
+                sh 'python3 -m venv .venv'
+                sh '.venv/bin/python -m pip install -r requirements.txt'
             }
         }
 
         stage('Run tests') {
             steps {
-                sh 'pytest --junitxml=test-results.xml'
+                sh '.venv/bin/python -m pytest --junitxml=test-results.xml'
             }
         }
 
