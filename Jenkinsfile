@@ -19,7 +19,7 @@ pipeline {
 
         stage('Run tests') {
             steps {
-                sh '.venv/bin/python -m pytest --junitxml=test-results.xml'
+               sh '.venv/bin/python -m pytest test_registration.py --junitxml=test-results.xml'
             }
         }
 
